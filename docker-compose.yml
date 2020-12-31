@@ -1,0 +1,26 @@
+version: "3"
+# Modified By Suppanat Praekpan
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      - WEBPASSWORD= Enter Your Password
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+      - TZ=Asia/Bangkok
+      - DNS1=127.0.0.1
+      - DNS2=1.1.1.1
+    cap_add:
+      - NET_ADMIN
+    # Volumes store your data between container upgrades
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
